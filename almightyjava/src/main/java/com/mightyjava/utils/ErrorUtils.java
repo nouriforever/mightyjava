@@ -8,6 +8,10 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 
 public class ErrorUtils {
+	private ErrorUtils() {
+
+	}
+
 	public static String customErrors(List<ObjectError> errors) {
 		JSONObject jsonObject = new JSONObject();
 		try {
@@ -15,9 +19,10 @@ public class ErrorUtils {
 			jsonObject.put("status", "failure");
 			jsonObject.put("title", "Field Errors");
 			for (ObjectError objectError : errors) {
-				if(objectError instanceof FieldError) {
+				if (objectError instanceof FieldError) {
 					FieldError fieldError = (FieldError) objectError;
-					errorMesssage += "<b>"+MethodUtils.convertString(fieldError.getField())+" : </b>"+fieldError.getDefaultMessage()+"</br>";
+					errorMesssage += "<b>" + MethodUtils.convertString(fieldError.getField()) + " : </b>"
+							+ fieldError.getDefaultMessage() + "</br>";
 				}
 			}
 			jsonObject.put("message", errorMesssage);
@@ -26,7 +31,7 @@ public class ErrorUtils {
 		}
 		return jsonObject.toString();
 	}
-	
+
 	public static String captchaError() {
 		JSONObject jsonObject = new JSONObject();
 		try {

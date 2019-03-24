@@ -11,26 +11,26 @@ import com.mightyjava.listener.CounterApplicationListener;
 
 @SpringBootApplication
 public class Application {
- 
+
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
-	
+
 	@Bean
 	public CaptchaGenerator getCaptchaGenerator() {
 		return new CaptchaGenerator();
 	}
-	
+
 	@Bean
 	public CounterApplicationListener getCounterApplicationListener() {
 		return new CounterApplicationListener();
 	}
-	
+
 	@Bean
 	public CaptchaDetailsSource getCaptchaDetailsSource() {
 		return new CaptchaDetailsSource();
 	}
-	
+
 	@Bean
 	public RestTemplate getRestTemplate() {
 		return new RestTemplate();

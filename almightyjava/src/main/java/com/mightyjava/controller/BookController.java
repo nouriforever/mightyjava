@@ -26,11 +26,14 @@ import org.springframework.web.client.RestTemplate;
 
 import com.mightyjava.config.MessageConfig;
 import com.mightyjava.dto.Book;
+import com.mightyjava.utils.ConstantUtils;
 import com.mightyjava.utils.ErrorUtils;
 
 @Controller
 @RequestMapping("book")
 public class BookController {
+	
+	private String BOOK_REST_URL = ConstantUtils.BOOK_REST_URL;
 
 	@Autowired
 	private RestTemplate restTemplate;
@@ -44,7 +47,7 @@ public class BookController {
 
 	@GetMapping("/list")
 	public String bookList(Model model, Pageable pageable) {
-		ResponseEntity<Collection<Book>> response = restTemplate.exchange("http://localhost:8081/rest/books",
+		ResponseEntity<Collection<Book>> response = restTemplate.exchange(BOOK_REST_URL,
 				HttpMethod.GET, null, new ParameterizedTypeReference<Collection<Book>>() {
 				});
 		model.addAttribute("books", response.getBody());
@@ -54,7 +57,7 @@ public class BookController {
 	@GetMapping("/edit/{id}")
 	public String bookOne(@PathVariable Long id, Model model) {
 		model.addAttribute("isNew", false);
-		ResponseEntity<Book> response = restTemplate.exchange("http://localhost:8081/rest/books/" + id, HttpMethod.GET,
+		ResponseEntity<Book> response = restTemplate.exchange(BOOK_REST_URL + id, HttpMethod.GET,
 				null, new ParameterizedTypeReference<Book>() {
 				});
 		model.addAttribute("bookForm", response.getBody());
@@ -76,12 +79,12 @@ public class BookController {
 			HttpEntity<Book> request = new HttpEntity<Book>(book);
 			if(book.getId() == null) {
 				message = messageConfig.getMessage("label.added");
-				response = restTemplate.exchange("http://localhost:8081/rest/books",
+				response = restTemplate.exchange(BOOK_REST_URL,
 							HttpMethod.POST, request, new ParameterizedTypeReference<Book>() {
 						});
 			} else {
 				message = messageConfig.getMessage("label.updated");
-				response = restTemplate.exchange("http://localhost:8081/rest/books",
+				response = restTemplate.exchange(BOOK_REST_URL,
 							HttpMethod.PUT, request, new ParameterizedTypeReference<Book>() {
 						});
 			}
@@ -100,7 +103,7 @@ public class BookController {
 	@GetMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String bookDelete(@PathVariable Long id) throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-		ResponseEntity<Book> response = restTemplate.exchange("http://localhost:8081/rest/books/" + id, HttpMethod.DELETE,
+		ResponseEntity<Book> response = restTemplate.exchange(BOOK_REST_URL + id, HttpMethod.DELETE,
 				null, new ParameterizedTypeReference<Book>() {
 				});
 		Book respBook = response.getBody();
