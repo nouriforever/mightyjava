@@ -1,19 +1,19 @@
-#GET
+# GET
 	http://localhost:8081/rest/books
-#GET 
+
+# GET By ID
 	http://localhost:8081/rest/books/100
 
-#POST
+# POST
 	http://localhost:8081/rest/books
 
-#PUT
+# PUT
 	http://localhost:8081/rest/books
 
-#DELETE 
+# DELETE
 	http://localhost:8081/rest/books/100
 
-=============================================================
-#Requests
+# Requests
 
 	{
 	    "title": "Spring in Action",
